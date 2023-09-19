@@ -1,0 +1,8 @@
+import ufracred.api.Agenda
+
+model {
+	Iterable<Agenda> agendaList
+}
+
+json tmpl.agenda(agendaList ?: [])
+

@@ -1,0 +1,7 @@
+import ufracred.api.Assessor
+
+model {
+	Assessor assessor
+}
+
+json g.render(assessor, [resolveTemplate: false])

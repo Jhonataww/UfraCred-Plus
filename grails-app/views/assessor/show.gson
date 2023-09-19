@@ -1,0 +1,7 @@
+import ufracred.api.Assessor
+
+model {
+	Assessor assessor
+}
+
+json tmpl.assessor(assessor)

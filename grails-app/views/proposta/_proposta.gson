@@ -1,0 +1,8 @@
+import ufracred.api.Cliente
+import ufracred.api.Proposta
+
+model {
+	Proposta proposta
+}
+
+json g.render(proposta, [resolveTemplate: false])

@@ -1,0 +1,7 @@
+import ufracred.api.Comite
+
+model {
+	Comite comite
+}
+
+json g.render(comite, [resolveTemplate: false])

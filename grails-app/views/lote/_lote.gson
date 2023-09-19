@@ -1,0 +1,7 @@
+import ufracred.api.Lote
+
+model {
+	Lote lote
+}
+
+json g.render(lote, [resolveTemplate: false])

@@ -1,0 +1,8 @@
+import ufracred.api.Lote
+
+model {
+	Iterable<Lote> loteList
+}
+
+json tmpl.lote(loteList ?: [])
+

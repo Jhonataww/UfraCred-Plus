@@ -1,0 +1,7 @@
+import ufracred.api.Comite
+
+model {
+	Comite comite
+}
+
+json tmpl.comite(comite)

@@ -1,0 +1,8 @@
+import ufracred.api.Comite
+
+model {
+	Iterable<Comite> comiteList
+}
+
+json tmpl.comite(comiteList ?: [])
+

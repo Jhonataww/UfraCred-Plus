@@ -1,0 +1,7 @@
+import ufracred.api.HistoricoTransacao
+
+model {
+	HistoricoTransacao historicoTransacao
+}
+
+json g.render(historicoTransacao, [resolveTemplate: false])

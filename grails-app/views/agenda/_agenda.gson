@@ -1,0 +1,7 @@
+import ufracred.api.Agenda
+
+model {
+	Agenda agenda
+}
+
+json g.render(agenda, [resolveTemplate: false])

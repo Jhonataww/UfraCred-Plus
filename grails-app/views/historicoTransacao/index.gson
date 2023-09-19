@@ -1,0 +1,8 @@
+import ufracred.api.HistoricoTransacao
+
+model {
+	Iterable<HistoricoTransacao> historicoTransacaoList
+}
+
+json tmpl.historicoTransacao(historicoTransacaoList ?: [])
+

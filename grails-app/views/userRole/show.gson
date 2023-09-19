@@ -1,0 +1,7 @@
+import com.security.UserRole
+
+model {
+	UserRole userRole
+}
+
+json tmpl.userRole(userRole)

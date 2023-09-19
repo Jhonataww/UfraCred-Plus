@@ -1,0 +1,7 @@
+import ufracred.api.Carteira
+
+model {
+	Carteira carteira
+}
+
+json g.render(carteira, [resolveTemplate: false])

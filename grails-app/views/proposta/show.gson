@@ -1,0 +1,7 @@
+import ufracred.api.Proposta
+
+model {
+	Proposta proposta
+}
+
+json tmpl.proposta(proposta)

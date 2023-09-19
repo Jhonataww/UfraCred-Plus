@@ -1,0 +1,7 @@
+import ufracred.api.Cliente
+
+model {
+	Cliente cliente
+}
+
+json g.render(cliente, [resolveTemplate: false])

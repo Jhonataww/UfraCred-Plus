@@ -1,0 +1,13 @@
+import ufracred.api.Carteira
+
+model {
+	Carteira carteira
+}
+
+json{
+	id carteira.id
+	assessor carteira.assessor.getNome()
+	assessorId carteira.assessor.getId()
+	excluido carteira.excluido
+
+}

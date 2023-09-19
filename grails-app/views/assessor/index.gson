@@ -1,0 +1,8 @@
+import ufracred.api.Assessor
+
+model {
+	Iterable<Assessor> assessorList
+}
+
+json tmpl.assessor(assessorList ?: [])
+

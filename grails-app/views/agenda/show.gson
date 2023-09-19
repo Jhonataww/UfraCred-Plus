@@ -1,0 +1,7 @@
+import ufracred.api.Agenda
+
+model {
+	Agenda agenda
+}
+
+json tmpl.agenda(agenda)
