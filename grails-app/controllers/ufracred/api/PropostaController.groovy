@@ -263,4 +263,17 @@ class PropostaController {
         def assessor = Assessor.findByUserName(authentication.getName())
         return assessor
     }
+
+    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
+    def integracaoGetBanco(){
+        params.integracao = "integracao"
+        respond propostaService.list(params)
+    }
+
+    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
+    def integracaoSaveBanco(ArrayList<Proposta> propostas){
+        propostas.each{ it ->
+            propostaService.save(it)
+        }
+    }
 }
