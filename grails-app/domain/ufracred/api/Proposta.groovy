@@ -41,7 +41,11 @@ class Proposta {
     Double outrasDespesas
     Double outrosPagamentos
 
+    static hasMany = [comites: Comite]
+
     static constraints = {
+
+        comites cascade: 'all-delete-orphan'
         dataContrato nullable: true
         dataOperacao nullable: true
         dataPrimeiroVencimento nullable: true

@@ -1,41 +1,30 @@
 package ufracred.api
 
-import grails.plugin.springsecurity.SpringSecurityService
+import grails.gorm.transactions.ReadOnly
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.Authentication
-import java.text.SimpleDateFormat
 
-import static org.springframework.http.HttpStatus.CREATED
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.NO_CONTENT
-import static org.springframework.http.HttpStatus.OK
-import grails.gorm.transactions.ReadOnly
-import grails.gorm.transactions.Transactional
-
+import static org.springframework.http.HttpStatus.*
 
 @ReadOnly
 @Secured(['ROLE_ADMIN'])
 class PropostaController {
 
     @Autowired
-    SpringSecurityService springSecurityService
+    UtilsService utilsService
 
     @Autowired
     IPropostaService propostaService
-
-    @Autowired
-    HistoricoTransacaoService historicoTransacaoService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
     def index(Integer max) {
-        def assessor
-        if(!springSecurityService.authentication.authorities.role.findAll{it == "ROLE_COORDENADOR"}){
-            assessor = assessorLogado()
+        if(!utilsService.authentication().authorities.role.findAll{it == "ROLE_COORDENADOR"}){
+            def assessor = utilsService.assessorLogado()
             params.nomeAssessor = assessor.nome
         }
         params.max = Math.min(max ?: 10, 100)
@@ -59,7 +48,8 @@ class PropostaController {
         }
         try {
             propostaService.save(proposta)
-            historicoTransacao(proposta, "Save")
+
+            //utilsService.historicoTransacao(proposta, "Save")
         } catch (ValidationException e) {
             respond proposta.errors
             return
@@ -81,8 +71,8 @@ class PropostaController {
 
         try {
             proposta.checkLists = "Atualização"
-            nomeProposta(proposta)
-            historicoTransacao(proposta, "update")
+            utilsService.nomeProposta(proposta)
+            //utilsService.historicoTransacao(proposta, "update")
             propostaService.save(proposta)
         } catch (ValidationException e) {
             respond proposta.errors
@@ -94,17 +84,16 @@ class PropostaController {
     @Transactional
     def delete(Long id) {
         try{
-            def proposta = propostaService.get(id)
-            historicoTransacao(proposta, "delete")
-
             if (id == null || propostaService.delete(id) == null) {
                 render status: NOT_FOUND
                 return
             }
+            //utilsService.historicoTransacao(Proposta.findById(id), "delete")
         }
         catch (Exception e){
             println("Erro ao buscar proposta para salvar historico e deletar " + e)
         }
+        redirect(action: "index")
         render status: NO_CONTENT
     }
 
@@ -118,70 +107,7 @@ class PropostaController {
             respond proposta, [status: NOT_FOUND ]
         }
     }
-    def historicoTransacao(Proposta proposta, String statusTransacao) throws Exception {
-        try{
-            Authentication authentication = springSecurityService.authentication
-            def username = authentication.getName()
-            HistoricoTransacao historicoTransacao = new HistoricoTransacao(proposta, username, statusTransacao)
-            historicoTransacaoService.save(historicoTransacao)
-        }catch (Exception e){
-            println("Erro ao salvar historico de transacao   -  " + e)
-            throw e
-        }
-    }
-    def nomeProposta(Proposta proposta) throws Exception {
 
-        Cliente cliente = Cliente.findById(proposta.cliente)
-        Assessor assessor = assessorLogado()
-
-        try{
-            proposta.nomeCliente = Cliente.findById(proposta.cliente).nomeCompleto
-            proposta.nomeAssessor = assessor.nome
-            proposta.assessor = assessor.id.intValue()
-        }catch (Exception e){
-            println("Erro ao buscar nome do cliente ou assessor " + e)
-        }
-        if (proposta.nomeAssessor == null || proposta.nomeAssessor == ""){
-            proposta.nomeAssessor = "Ilegitimo"
-            proposta.status = "Ilegitimo - Proposta sem assessor"
-            throw new Exception("Proposta sem assessor")
-        }
-        if(proposta.nomeCliente == null || proposta.nomeCliente == ""){
-            proposta.nomeCliente = "Ilegitimo"
-            proposta.status = "Ilegitimo - Proposta sem cliente"
-            throw new Exception("Proposta sem assessor")
-        }
-        if(!(assessor.carteira == cliente.carteira)){
-            proposta.status = "Ilegitimo - Proposta sem cliente"
-            throw new Exception("Carteira do cliente não corresponde a carteira do assessor")
-        }
-    }
-
-    def gerarContrato(Proposta proposta){
-
-
-
-        // mudei isso kkk
-        // n sei se vai funcionar, testa ai
-        // para meu eu do futuro XD
-
-
-        Random random = new Random()
-        Integer v = random.nextInt(10000)
-        Date dataAtual = new Date()
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd")
-        String dataFormatada = dateFormat.format(dataAtual)
-        Integer vd = Integer.parseInt(dataFormatada)
-        Integer vf = (vd + ( v %= 10000))
-
-        proposta.numeroContrato = vf
-    }
-    def esteiraProposta (Proposta proposta){
-        proposta.tipoProposta = "Nova"
-        proposta.status = "Em Análise"
-        proposta.checkLists = "Simulacao"
-        proposta.numeroAditivo = 0
-    }
     def calculoCredito(Proposta proposta) throws Exception{
 
         Double receitaOperacional = proposta.receitaOperacional
@@ -254,14 +180,9 @@ class PropostaController {
 
         //criar o array list de parcelas
 
-        esteiraProposta(proposta)
-        gerarContrato(proposta)
-        nomeProposta(proposta)
-    }
-    def assessorLogado(){
-        Authentication authentication = springSecurityService.authentication
-        def assessor = Assessor.findByUserName(authentication.getName())
-        return assessor
+        utilsService.esteiraProposta1(proposta)
+        utilsService.gerarContrato(proposta)
+        utilsService.nomeProposta(proposta)
     }
 
     @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
@@ -270,10 +191,10 @@ class PropostaController {
         respond propostaService.list(params)
     }
 
-    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
-    def integracaoSaveBanco(ArrayList<Proposta> propostas){
-        propostas.each{ it ->
-            propostaService.save(it)
-        }
-    }
+//    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
+//    def integracaoSaveBanco(ArrayList<Proposta> propostas){
+//        propostas.each{ it ->
+//            propostaService.save(it)
+//        }
+//    }
 }
