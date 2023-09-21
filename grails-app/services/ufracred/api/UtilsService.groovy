@@ -1,11 +1,16 @@
 package ufracred.api
 
 import grails.gorm.services.Service
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
+import grails.plugin.springsecurity.annotation.Secured
+import groovyx.net.http.HTTPBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
 
 import java.text.SimpleDateFormat
+
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 @Service
 class UtilsService {
@@ -89,6 +94,23 @@ class UtilsService {
         proposta.status = "Analisada"
         proposta.checkLists = "Comite"
         proposta.numeroAditivo = 0
+    }
+
+    @Transactional
+    @Secured(['permitAll'])
+    def consultaCEP(String cep) {
+
+        def http = new HTTPBuilder('http://viacep.com.br')
+        def result = [:]
+
+        http.get(path: "/ws/${cep}/json/") { resp, reader ->
+            result = reader
+        }
+
+        if(result == null || result.erro) {
+            respond result, [status: NOT_FOUND]
+        }
+        respond result
     }
 
 }

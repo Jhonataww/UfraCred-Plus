@@ -4,6 +4,7 @@ import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import groovyx.net.http.HTTPBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import ufracred.api.impl.ComiteServiceImpl
 
@@ -103,6 +104,23 @@ class PropostaController {
         }
         redirect(action: "index")
         render status: NO_CONTENT
+    }
+
+    @Transactional
+    @Secured(['permitAll'])
+    def consultaCEP(String cep) {
+
+        def http = new HTTPBuilder('http://viacep.com.br')
+        def result = [:]
+
+        http.get(path: "/ws/${cep}/json/") { resp, reader ->
+            result = reader
+        }
+
+        if(result == null || result.erro) {
+            respond result, [status: NOT_FOUND]
+        }
+        respond result
     }
 
     @Transactional
