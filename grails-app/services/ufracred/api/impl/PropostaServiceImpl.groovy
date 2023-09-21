@@ -29,6 +29,11 @@ abstract class PropostaServiceImpl implements IPropostaService {
             if(args.integracao){
                 ilike("status", "integacao")
             }
+            if(args.comite == 'assessor'){
+                not {
+                    eq("checkLists", "Aprovado")
+                }
+            }
 
         }
 

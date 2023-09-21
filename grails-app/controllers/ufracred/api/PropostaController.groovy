@@ -5,6 +5,7 @@ import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import org.springframework.beans.factory.annotation.Autowired
+import ufracred.api.impl.ComiteServiceImpl
 
 import static org.springframework.http.HttpStatus.*
 
@@ -18,6 +19,9 @@ class PropostaController {
     @Autowired
     IPropostaService propostaService
 
+    @Autowired
+    ComiteServiceImpl comiteService
+
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -26,6 +30,7 @@ class PropostaController {
         if(!utilsService.authentication().authorities.role.findAll{it == "ROLE_COORDENADOR"}){
             def assessor = utilsService.assessorLogado()
             params.nomeAssessor = assessor.nome
+            params.comite = "assessor"
         }
         params.max = Math.min(max ?: 10, 100)
         respond propostaService.list(params), model:[propostaCount: propostaService.count(params)]
@@ -84,6 +89,9 @@ class PropostaController {
     @Transactional
     def delete(Long id) {
         try{
+            if(Comite?.findByProposta(Proposta?.findById(id))?.excluido == 1){
+                comiteService.delete(Comite?.findByProposta(Proposta?.findById(id))?.id)
+            }
             if (id == null || propostaService.delete(id) == null) {
                 render status: NOT_FOUND
                 return
@@ -91,7 +99,7 @@ class PropostaController {
             //utilsService.historicoTransacao(Proposta.findById(id), "delete")
         }
         catch (Exception e){
-            println("Erro ao buscar proposta para salvar historico e deletar " + e)
+            println("Erro ao buscar proposta para salvar o historico e deletar " + e)
         }
         redirect(action: "index")
         render status: NO_CONTENT

@@ -99,7 +99,7 @@ class ComiteController {
         Proposta proposta = Proposta.get(comite.proposta.id)
         proposta.tipoProposta = "Nova"
         proposta.status = "Comite"
-        proposta.checkLists =  comite.excluido == 0 ? "Aprovado" : "Negado"
+        proposta.checkLists = comite.excluido == 0 ? "Aprovado" : "Negado"
         proposta.numeroAditivo = 0
         propostaService.save(proposta)
     }
