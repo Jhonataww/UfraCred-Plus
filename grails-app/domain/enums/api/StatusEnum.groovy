@@ -1,10 +1,10 @@
 package enums.api
 
 enum StatusEnum {
-    EmAnalise("Em Analise"),
-    Pendente("Pendente"),
-    Ilegitimo("Ilegitimo"),
-    Comite("Comite")
+    EM_ANALISE("Em Analise"),
+    PENDENTE("Pendente"),
+    ILEGITIMO("Ilegitimo"),
+    COMITE("Comite")
 
     private final String value
 

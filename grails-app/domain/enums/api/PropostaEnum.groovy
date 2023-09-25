@@ -1,10 +1,14 @@
 package enums.api
 
 enum PropostaEnum {
-    Nova("Nova"),
-    Pendente("Pendente"),
-    Ilegitimo("Ilegitimo"),
-    Comite("Comite")
+    NOVA("Nova"),
+    PENDENTE("Pendente"),
+    ILEGITIMO("Ilegitimo"),
+    COMITE("Comite"),
+    FORMALIZADA("Formalizada"),
+    PENDENTE_FORMALIZACAO("Pendente Formalizacao"),
+    CANCELADA("Cancelada"),
+    APROVADA("Aprovada")
 
     private final String value
 

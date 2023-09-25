@@ -1,8 +1,10 @@
 package enums.api
 
 enum CheckListsEnum {
-    Aprovado("Aprovado"),
-    Negado("Negado")
+    APROVADO("Aprovado"),
+    NEGADO("Negado"),
+    SIMULACAO("Simulacao"),
+    ATUALIZACAO("Atualizacao")
 
     private final String value
 
