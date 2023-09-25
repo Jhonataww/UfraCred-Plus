@@ -17,6 +17,6 @@ class UrlMappings {
         "/simulaProposta"(controller: "proposta", action:"simulaProposta")
         "/integracaoGetBanco"(controller: "proposta", action:"integracaoGetBanco")
         "/integracaoSaveBanco"(controller: "proposta", action:"integracaoSaveBanco")
-        "/integracaoSaveBanco"(controller: "proposta", action:"consultaCEP")
+        "/cep"(controller: "proposta", action:"consultaCEP")
     }
 }
