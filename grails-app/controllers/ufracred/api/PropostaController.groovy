@@ -1,5 +1,6 @@
 package ufracred.api
 
+import enums.api.CheckListsEnum
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
@@ -76,7 +77,7 @@ class PropostaController {
         }
 
         try {
-            proposta.checkLists = "Atualização"
+            proposta.checkLists = CheckListsEnum.ATUALIZACAO.value()
             utilsService.nomeProposta(proposta)
             //utilsService.historicoTransacao(proposta, "update")
             propostaService.save(proposta)

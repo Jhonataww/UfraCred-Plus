@@ -1,5 +1,6 @@
 package ufracred.api
 
+import enums.api.ClienteEnum
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
@@ -50,7 +51,7 @@ class ClienteController {
         }
 
         if(cliente.cpfConjuge == null || cliente.cpfConjuge.equals("") || cliente.cpfConjuge.equals('')){
-            cliente.cpfConjuge = "NAO"
+            cliente.cpfConjuge = ClienteEnum.NAO.value()
         }
 
         if (cliente == null) {
@@ -106,8 +107,8 @@ class ClienteController {
     }
 
     def processamentoCliente(Cliente cliente){
-        cliente.situacao = "CADASTRADO"
-        cliente.atualizacao = "CADASTRO"
+        cliente.situacao = ClienteEnum.CADASTRADO.value()
+        cliente.atualizacao = ClienteEnum.CADASTRO.value()
         cliente.dataAtualizacao = new Date();
     }
 

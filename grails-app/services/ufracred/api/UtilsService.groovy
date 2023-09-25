@@ -1,5 +1,7 @@
 package ufracred.api
 
+import enums.api.CheckListsEnum
+import enums.api.PropostaEnum
 import enums.api.StatusEnum
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
@@ -55,17 +57,17 @@ class UtilsService {
             println("Erro ao buscar nome do cliente ou assessor " + e)
         }
         if (proposta.nomeAssessor == null || proposta.nomeAssessor == ""){
-            proposta.nomeAssessor = StatusEnum.Ilegitimo.value()
-            proposta.status = StatusEnum.Ilegitimo.value()
+            proposta.nomeAssessor = StatusEnum.ILEGITIMO.value()
+            proposta.status = StatusEnum.ILEGITIMO.value()
             throw new Exception("Proposta sem assessor")
         }
         if(proposta.nomeCliente == null || proposta.nomeCliente == ""){
-            proposta.nomeCliente = StatusEnum.Ilegitimo.value()
-            proposta.status = StatusEnum.Ilegitimo.value()
-            throw new Exception("Proposta sem assessor")
+            proposta.nomeCliente = StatusEnum.ILEGITIMO.value()
+            proposta.status = StatusEnum.ILEGITIMO.value()
+            throw new Exception("Proposta sem Cliente")
         }
         if(!(assessor.carteira == cliente.carteira)){
-            proposta.status = StatusEnum.Ilegitimo.value()
+            proposta.status = StatusEnum.ILEGITIMO.value()
             throw new Exception("Carteira do cliente não corresponde a carteira do assessor")
         }
     }
@@ -84,9 +86,9 @@ class UtilsService {
     }
 
     def esteiraProposta1 (Proposta proposta){
-        proposta.tipoProposta = "Nova"
-        proposta.status = StatusEnum.EmAnalise.value()
-        proposta.checkLists = "Simulacao"
+        proposta.tipoProposta = PropostaEnum.NOVA.value()
+        proposta.status = StatusEnum.EM_ANALISE.value()
+        proposta.checkLists = CheckListsEnum.SIMULACAO.value()
         proposta.numeroAditivo = 0
     }
 
