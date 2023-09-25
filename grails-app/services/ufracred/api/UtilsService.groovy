@@ -1,5 +1,6 @@
 package ufracred.api
 
+import enums.api.StatusEnum
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
@@ -54,17 +55,17 @@ class UtilsService {
             println("Erro ao buscar nome do cliente ou assessor " + e)
         }
         if (proposta.nomeAssessor == null || proposta.nomeAssessor == ""){
-            proposta.nomeAssessor = "Ilegitimo"
-            proposta.status = "Ilegitimo - Proposta sem assessor"
+            proposta.nomeAssessor = StatusEnum.Ilegitimo.value()
+            proposta.status = StatusEnum.Ilegitimo.value()
             throw new Exception("Proposta sem assessor")
         }
         if(proposta.nomeCliente == null || proposta.nomeCliente == ""){
-            proposta.nomeCliente = "Ilegitimo"
-            proposta.status = "Ilegitimo - Proposta sem cliente"
+            proposta.nomeCliente = StatusEnum.Ilegitimo.value()
+            proposta.status = StatusEnum.Ilegitimo.value()
             throw new Exception("Proposta sem assessor")
         }
         if(!(assessor.carteira == cliente.carteira)){
-            proposta.status = "Ilegitimo - Proposta sem cliente"
+            proposta.status = StatusEnum.Ilegitimo.value()
             throw new Exception("Carteira do cliente não corresponde a carteira do assessor")
         }
     }
@@ -84,7 +85,7 @@ class UtilsService {
 
     def esteiraProposta1 (Proposta proposta){
         proposta.tipoProposta = "Nova"
-        proposta.status = "Em Análise"
+        proposta.status = StatusEnum.EmAnalise.value()
         proposta.checkLists = "Simulacao"
         proposta.numeroAditivo = 0
     }
