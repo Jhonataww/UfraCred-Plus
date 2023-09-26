@@ -15,8 +15,6 @@ class UrlMappings {
         "404"(view: '/notFound')
 
         "/simulaProposta"(controller: "proposta", action:"simulaProposta")
-        "/integracaoGetBanco"(controller: "proposta", action:"integracaoGetBanco")
-        "/integracaoSaveBanco"(controller: "proposta", action:"integracaoSaveBanco")
         "/cep"(controller: "proposta", action:"consultaCEP")
     }
 }
