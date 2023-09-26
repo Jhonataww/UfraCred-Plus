@@ -22,6 +22,9 @@ class PropostaController {
     IPropostaService propostaService
 
     @Autowired
+    IntegracaoService integracaoService
+
+    @Autowired
     ComiteServiceImpl comiteService
 
     static responseFormats = ['json', 'xml']
@@ -207,21 +210,8 @@ class PropostaController {
 
         //criar o array list de parcelas
 
-        utilsService.esteiraProposta1(proposta)
+        integracaoService.esteiraProposta1(proposta)
         utilsService.gerarContrato(proposta)
         utilsService.nomeProposta(proposta)
     }
-
-    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
-    def integracaoGetBanco(){
-        params.integracao = "integracao"
-        respond propostaService.list(params)
-    }
-
-//    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
-//    def integracaoSaveBanco(ArrayList<Proposta> propostas){
-//        propostas.each{ it ->
-//            propostaService.save(it)
-//        }
-//    }
 }

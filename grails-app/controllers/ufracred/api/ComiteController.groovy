@@ -20,7 +20,7 @@ class ComiteController {
     IComiteService comiteService
 
     @Autowired
-    IPropostaService propostaService
+    IntegracaoService integracaoService
 
     @Autowired
     SpringSecurityService springSecurityService
@@ -53,7 +53,7 @@ class ComiteController {
             if(Comite.findByProposta(comite.proposta)){
                 throw new ValidationException("Proposta já cadastrada no comite")
             }
-            esteiraProposta(comite)
+            integracaoService.esteiraPropostaComite(comite)
             comiteService.save(comite)
         } catch (ValidationException e) {
             respond comite.errors
@@ -93,14 +93,5 @@ class ComiteController {
         }
 
         render status: NO_CONTENT
-    }
-
-    def esteiraProposta (Comite comite) {
-        Proposta proposta = Proposta.get(comite.proposta.id)
-        proposta.tipoProposta = "Nova"
-        proposta.status = "Comite"
-        proposta.checkLists = comite.excluido == 0 ? "Aprovado" : "Negado"
-        proposta.numeroAditivo = 0
-        propostaService.save(proposta)
     }
 }

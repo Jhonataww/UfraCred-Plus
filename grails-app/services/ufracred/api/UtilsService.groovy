@@ -85,19 +85,6 @@ class UtilsService {
         proposta.numeroContrato = vf
     }
 
-    def esteiraProposta1 (Proposta proposta){
-        proposta.tipoProposta = PropostaEnum.NOVA.value()
-        proposta.status = StatusEnum.EM_ANALISE.value()
-        proposta.checkLists = CheckListsEnum.SIMULACAO.value()
-        proposta.numeroAditivo = 0
-    }
-
-    def esteiraProposta2 (Proposta proposta){
-        proposta.tipoProposta = "Nova"
-        proposta.status = "Analisada"
-        proposta.checkLists = "Comite"
-        proposta.numeroAditivo = 0
-    }
 
     @Transactional
     @Secured(['permitAll'])
