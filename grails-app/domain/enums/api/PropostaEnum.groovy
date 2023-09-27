@@ -7,6 +7,9 @@ enum PropostaEnum {
     COMITE("Comite"),
     FORMALIZADA("Formalizada"),
     PENDENTE_FORMALIZACAO("Pendente Formalizacao"),
+    PENDENTE_INSTITUICAO_FINANCEIRA("Pendente Instituicao Financeira"),
+    APROVADA_INSTITUICAO_FINANCEIRA("Aprovada Instituicao Financeira"),
+    REPROVADA_INSTITUICAO_FINANCEIRA("Reprovada Instituicao Financeira"),
     CANCELADA("Cancelada"),
     APROVADA("Aprovada")
 
