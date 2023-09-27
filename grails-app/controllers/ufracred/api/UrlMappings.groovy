@@ -15,6 +15,6 @@ class UrlMappings {
         "404"(view: '/notFound')
 
         "/simulaProposta"(controller: "proposta", action:"simulaProposta")
-        "/cep"(controller: "proposta", action:"consultaCEP")
+        "/cep"(controller: "cep", action:"consultaCEP")
     }
 }
