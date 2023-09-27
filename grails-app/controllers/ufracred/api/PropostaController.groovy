@@ -1,6 +1,7 @@
 package ufracred.api
 
 import enums.api.CheckListsEnum
+import enums.api.ComiteEnum
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
@@ -35,7 +36,7 @@ class PropostaController {
         if(!utilsService.authentication().authorities.role.findAll{it == "ROLE_COORDENADOR"}){
             def assessor = utilsService.assessorLogado()
             params.nomeAssessor = assessor.nome
-            params.comite = "assessor"
+            params.comite = ComiteEnum.ASSESSOR.value()
         }
         params.max = Math.min(max ?: 10, 100)
         respond propostaService.list(params), model:[propostaCount: propostaService.count(params)]
