@@ -1,0 +1,7 @@
+import ufracred.api.Cep
+
+model {
+	Cep cep
+}
+
+json g.render(cep, [resolveTemplate: false])

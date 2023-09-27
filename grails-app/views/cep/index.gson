@@ -1,0 +1,8 @@
+import ufracred.api.Cep
+
+model {
+	Iterable<Cep> cepList
+}
+
+json tmpl.cep(cepList ?: [])
+
