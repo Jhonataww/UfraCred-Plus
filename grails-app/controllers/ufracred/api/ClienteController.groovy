@@ -24,11 +24,14 @@ class ClienteController {
     @Autowired
     SpringSecurityService springSecurityService
 
+    @Autowired
+    UtilsService utilsService
+
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        Assessor assessor = assessorLogado()
+        Assessor assessor = utilsService.assessorLogado()
         params.carteiraId = assessor.carteira.id
         params.max = Math.min(max ?: 10, 100)
         respond clienteService.list(params), model:[clienteCount: clienteService.count(params)]
@@ -110,12 +113,5 @@ class ClienteController {
         cliente.situacao = ClienteEnum.CADASTRADO.value()
         cliente.atualizacao = ClienteEnum.CADASTRO.value()
         cliente.dataAtualizacao = new Date();
-    }
-
-
-    def assessorLogado(){
-        Authentication authentication = springSecurityService.authentication
-        def assessor = Assessor.findByUserName(authentication.getName())
-        return assessor
     }
 }
