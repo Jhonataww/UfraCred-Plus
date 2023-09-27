@@ -71,36 +71,4 @@ class UtilsService {
             throw new Exception("Carteira do cliente não corresponde a carteira do assessor")
         }
     }
-
-    def gerarContrato(Proposta proposta){
-
-        Random random = new Random()
-        Integer v = random.nextInt(10000)
-        Date dataAtual = new Date()
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd")
-        String dataFormatada = dateFormat.format(dataAtual)
-        Integer vd = Integer.parseInt(dataFormatada)
-        Integer vf = (vd + ( v %= 10000))
-
-        proposta.numeroContrato = vf
-    }
-
-
-    @Transactional
-    @Secured(['permitAll'])
-    def consultaCEP(String cep) {
-
-        def http = new HTTPBuilder('http://viacep.com.br')
-        def result = [:]
-
-        http.get(path: "/ws/${cep}/json/") { resp, reader ->
-            result = reader
-        }
-
-        if(result == null || result.erro) {
-            respond result, [status: NOT_FOUND]
-        }
-        respond result
-    }
-
 }
