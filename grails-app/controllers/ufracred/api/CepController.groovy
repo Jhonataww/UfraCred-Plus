@@ -1,16 +1,12 @@
 package ufracred.api
 
+import grails.gorm.transactions.ReadOnly
+import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import groovyx.net.http.HTTPBuilder
 
-import static org.springframework.http.HttpStatus.CREATED
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.NO_CONTENT
-import static org.springframework.http.HttpStatus.OK
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
-
-import grails.gorm.transactions.ReadOnly
-import grails.gorm.transactions.Transactional
+import static org.springframework.http.HttpStatus.*
 
 @ReadOnly
 class CepController {
@@ -84,6 +80,7 @@ class CepController {
     }
 
     @Transactional
+    @Secured(['permitAll'])
     def consultaCEP(String cep) {
         def endereco = Cep.findByCep(cep)
         if (endereco) {
@@ -106,7 +103,11 @@ class CepController {
                 logradouro: result.logradouro,
                 bairro: result.bairro,
                 cidade: result.localidade,
-                uf: result.uf
+                uf: result.uf,
+                ibge: result.ibge,
+                gia: result.gia,
+                ddd: result.ddd,
+                siafi: result.siafi
         )
         save(result)
         respond result, [status: OK]
