@@ -7,11 +7,27 @@ import grails.gorm.services.Service
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 
+import java.text.SimpleDateFormat
+
 @Service
 class IntegracaoService {
 
     @Autowired
     IPropostaService propostaService
+
+
+    def gerarContrato(Proposta proposta){
+
+        Random random = new Random()
+        Integer v = random.nextInt(10000)
+        Date dataAtual = new Date()
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd")
+        String dataFormatada = dateFormat.format(dataAtual)
+        Integer vd = Integer.parseInt(dataFormatada)
+        Integer vf = (vd + ( v %= 10000))
+
+        proposta.numeroContrato = vf
+    }
 
     def esteiraProposta1 (Proposta proposta){
         proposta.tipoProposta = PropostaEnum.NOVA.value()
@@ -21,19 +37,25 @@ class IntegracaoService {
     }
 
     def esteiraProposta2 (Proposta proposta){
-        proposta.tipoProposta = "Nova"
-        proposta.status = "Analisada"
-        proposta.checkLists = "Comite"
-        proposta.numeroAditivo = 0
+        if(proposta.status ==  StatusEnum.COMITE.value() && proposta.checkLists == CheckListsEnum.NEGADO_COMITE.value()) {
+            proposta.tipoProposta = PropostaEnum.NOVA.value()
+            proposta.status = StatusEnum.COMITE.value()
+            proposta.checkLists = CheckListsEnum.NEGADO_COMITE.value()
+            return
+        }
+        proposta.tipoProposta = PropostaEnum.NOVA.value()
+        proposta.status = StatusEnum.PENDENTE.value()
+        proposta.checkLists = CheckListsEnum.PENDENTE_INTEGRACAO.value()
     }
 
     def esteiraPropostaComite (Comite comite) {
         Proposta proposta = Proposta.get(comite.proposta.id)
         proposta.tipoProposta = PropostaEnum.NOVA.value()
         proposta.status = StatusEnum.COMITE.value()
-        proposta.checkLists = comite.excluido == 0 ? CheckListsEnum.APROVADO.value() : CheckListsEnum.NEGADO.value()
-        proposta.numeroAditivo = 0
+        proposta.checkLists = comite.comite == 0 ? CheckListsEnum.APROVADO_COMITE.value() : CheckListsEnum.NEGADO_COMITE.value()
         propostaService.save(proposta)
+        esteiraProposta2(proposta)
+
     }
 
 //    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])

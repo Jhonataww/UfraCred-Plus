@@ -195,7 +195,7 @@ class PropostaController {
         //criar o array list de parcelas
 
         integracaoService.esteiraProposta1(proposta)
-        utilsService.gerarContrato(proposta)
+        integracaoService.gerarContrato(proposta)
         utilsService.nomeProposta(proposta)
     }
 }
