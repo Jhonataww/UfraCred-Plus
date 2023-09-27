@@ -111,23 +111,6 @@ class PropostaController {
     }
 
     @Transactional
-    @Secured(['permitAll'])
-    def consultaCEP(String cep) {
-
-        def http = new HTTPBuilder('http://viacep.com.br')
-        def result = [:]
-
-        http.get(path: "/ws/${cep}/json/") { resp, reader ->
-            result = reader
-        }
-
-        if(result == null || result.erro) {
-            respond result, [status: NOT_FOUND]
-        }
-        respond result
-    }
-
-    @Transactional
     def simulaProposta(Proposta proposta) throws Exception{
         try {
             calculoCredito(proposta)
