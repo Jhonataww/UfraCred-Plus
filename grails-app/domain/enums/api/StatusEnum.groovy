@@ -2,6 +2,8 @@ package enums.api
 
 enum StatusEnum {
     EM_ANALISE("Em Analise"),
+    APROVADO("Aprovado"),
+    NEGADO("Negado"),
     PENDENTE("Pendente"),
     ILEGITIMO("Ilegitimo"),
     COMITE("Comite")
