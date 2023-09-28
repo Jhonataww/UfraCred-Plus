@@ -102,7 +102,7 @@ class CepController {
                 complemento: result.complemento,
                 logradouro: result.logradouro,
                 bairro: result.bairro,
-                cidade: result.localidade,
+                localidade: result.localidade,
                 uf: result.uf,
                 ibge: result.ibge,
                 gia: result.gia,
