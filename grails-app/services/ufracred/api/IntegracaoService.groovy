@@ -7,6 +7,7 @@ import grails.gorm.services.Service
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.beans.factory.annotation.Autowired
 
+import javax.xml.crypto.Data
 import java.text.SimpleDateFormat
 
 @Service
@@ -58,6 +59,10 @@ class IntegracaoService {
 
     }
 
+    def lote(){
+        def data = new Date()
+        println("teste " + data)
+    }
 //    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
 //    def integracaoGetBanco(){
 //        params.integracao = "integracao"
