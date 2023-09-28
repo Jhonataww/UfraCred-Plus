@@ -235,8 +235,9 @@
                   label="CEP"
                   label-color="dark"
                   mask="########"
-                  style="width: 14rem "
-                />
+                  @blur="buscaCep()"
+                  style="width: 14rem ">
+                </q-input>
                 <q-select
 
                   v-model="cliente.servidorPublico"
@@ -274,7 +275,6 @@
                 />
                 <q-input
                   v-model="cliente.endereco"
-
                   :rules="[val => !!val || 'Campo Obrigatório']"
                   class="q-pa-md"
                   color="secondary"
@@ -505,6 +505,7 @@ import notificacaoService from "src/services/notificacaoService.js";
 import assessorService from "src/services/assessorService";
 import clienteService from "src/services/clienteService";
 import { useAuthStore } from "src/stores/auth";
+import cepService from "src/services/cepService";
 
 export default defineComponent({
   components: {
@@ -622,6 +623,19 @@ export default defineComponent({
         notificacaoService.success("Registro atualizado com sucesso.");
       } catch ({ response }) {
         notificacaoService.error(response.data);
+      }
+      this.$q.loading.hide();
+    },
+
+    async buscaCep() {
+      this.$q.loading.show({ message: "Buscando CEP" });
+      try {
+        const response = await cepService.list(this.cliente.cep);
+        let complemento = response.data.complemento !== undefined ? response.data.complemento : "";
+        this.cliente.endereco = response.data.logradouro + " " + complemento;
+        this.cliente.cidade = response.data.localidade;
+      } catch (error) {
+        console.error(error);
       }
       this.$q.loading.hide();
     },
