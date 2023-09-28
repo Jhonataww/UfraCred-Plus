@@ -41,6 +41,8 @@ class Proposta {
     Double outrasDespesas
     Double outrosPagamentos
 
+    Integer lote
+
     static constraints = {
         dataContrato nullable: true
         dataOperacao nullable: true
@@ -78,5 +80,6 @@ class Proposta {
         outrosPagamentos nullable: true
         assessor nullable: true
         cliente nullable: true
+        lote nullable: true
     }
 }

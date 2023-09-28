@@ -1,11 +1,13 @@
 package ufracred.api
 
 class Lote {
-    //teste
-    String nome
-    String descricao
-    String dataCriacao
 
+    String status
+    Date dataCriacao
+    Date dataAtualizacao
     static constraints = {
+        status nullable: true
+        dataCriacao nullable: true
+        dataAtualizacao nullable: true
     }
 }

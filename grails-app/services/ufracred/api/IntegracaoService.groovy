@@ -1,6 +1,7 @@
 package ufracred.api
 
 import enums.api.CheckListsEnum
+import enums.api.LoteEnum
 import enums.api.PropostaEnum
 import enums.api.StatusEnum
 import grails.gorm.services.Service
@@ -15,6 +16,10 @@ class IntegracaoService {
 
     @Autowired
     IPropostaService propostaService
+
+    @Autowired
+    LoteService loteService
+
 
 
     def gerarContrato(Proposta proposta){
@@ -60,19 +65,37 @@ class IntegracaoService {
     }
 
     def lote(){
-        def data = new Date()
-        println("teste " + data)
-    }
-//    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
-//    def integracaoGetBanco(){
-//        params.integracao = "integracao"
-//        respond propostaService.list(params)
-//    }
+        def proposta = listPropostaLote()
+        if(!proposta){
+            println("Não há propostas para serem processadas");
+            return
+        }
 
-//    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
-//    def integracaoSaveBanco(ArrayList<Proposta> propostas){
-//        propostas.each{ it ->
-//            propostaService.save(it)
-//        }
-//    }
+        def lote = new Lote(status : LoteEnum.CRIADO.value(), dataCriacao : new Date(), dataAtualizacao : new Date())
+        loteService.save(lote)
+        proposta.each{ it ->
+            it.lote = Lote.findByStatus(LoteEnum.CRIADO.value()).id
+            propostaService.save(it)
+        }
+        lote.status = LoteEnum.PROCESSANDO.value()
+        loteService.save(lote)
+    }
+
+    private Closure buildCriteria() {
+
+        def criteria = {
+            eq("status", StatusEnum.PENDENTE.value())
+            eq("tipoProposta", PropostaEnum.NOVA.value())
+            eq("checkLists", CheckListsEnum.PENDENTE_INTEGRACAO.value())
+        }
+
+        return criteria
+    }
+
+    List<Proposta> listPropostaLote() {
+
+        def criteria = buildCriteria()
+
+        return Proposta.createCriteria().list(criteria)
+    }
 }
