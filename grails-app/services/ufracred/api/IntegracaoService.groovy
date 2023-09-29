@@ -70,15 +70,16 @@ class IntegracaoService {
             println("Não há propostas para serem processadas");
             return
         }
-
         def lote = new Lote(status : LoteEnum.CRIADO.value(), dataCriacao : new Date(), dataAtualizacao : new Date())
-        loteService.save(lote)
+        def LoteIdCriado = loteService.save(lote).id
         proposta.each{ it ->
-            it.lote = Lote.findByStatus(LoteEnum.CRIADO.value()).id
+            it.lote = LoteIdCriado
+            it.status = StatusEnum.LOTE.value()
             propostaService.save(it)
         }
         lote.status = LoteEnum.PROCESSANDO.value()
         loteService.save(lote)
+        println("Lote ${LoteIdCriado} criado com sucesso, com ${proposta.size()} propostas");
     }
 
     private Closure buildCriteria() {

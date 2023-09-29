@@ -11,7 +11,12 @@ class LoteJob {
     @Autowired
     IntegracaoService integracaoService
 
-    @Scheduled(fixedRate = 1000L)
+//    @Scheduled(cron = "0 18 * * 1-5") // 18h de segunda a sexta
+//    void tarefaAgendada() {
+//        integracaoService.lote()
+//    }
+
+    @Scheduled(cron = "0 * * * * ?") // // a cada minuto
     void tarefaAgendada() {
         integracaoService.lote()
     }
