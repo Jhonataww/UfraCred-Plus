@@ -1,0 +1,7 @@
+import ufracred.api.IntermediadorPropostasCredito
+
+model {
+	IntermediadorPropostasCredito intermediadorPropostasCredito
+}
+
+json g.render(intermediadorPropostasCredito, [resolveTemplate: false])
