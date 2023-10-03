@@ -12,6 +12,7 @@ import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
 @ReadOnly
+@Secured(['ROLE_ADMIN'])
 class IntermediadorPropostasCreditoController {
 
     IntermediadorPropostasCreditoService intermediadorPropostasCreditoService
@@ -83,14 +84,16 @@ class IntermediadorPropostasCreditoController {
     }
 
     @Transactional
-    @Secured(['permiteAll'])
+    @Secured(['ROLE_ADMIN'])
     def envioLoteProposta(){
         println("envioLoteProposta")
+        render status: OK
     }
 
     @Transactional
-    @Secured(['permiteAll'])
+    @Secured(['ROLE_ADMIN'])
     def recebimentoLoteProposta(){
         println("recebimentoLoteProposta")
+        render status: OK
     }
 }
