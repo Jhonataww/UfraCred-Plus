@@ -6,7 +6,7 @@ class IntermediadorPropostasCredito {
     Date atualizacao
     String status
     String descricao
-    String log
+    String logStack
     String parecerAprovacao
     String parecerReprovacao
     String parecerErro
@@ -27,7 +27,7 @@ class IntermediadorPropostasCredito {
         atualizacao nullable: true
         status nullable: true
         descricao nullable: true
-        log nullable: true
+        logStack nullable: true
         parecerAprovacao nullable: true
         parecerReprovacao nullable: true
         parecerErro nullable: true
