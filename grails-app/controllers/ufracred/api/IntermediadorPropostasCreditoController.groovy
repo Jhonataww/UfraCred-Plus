@@ -1,5 +1,6 @@
 package ufracred.api
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
@@ -79,5 +80,17 @@ class IntermediadorPropostasCreditoController {
         }
 
         render status: NO_CONTENT
+    }
+
+    @Transactional
+    @Secured(['permiteAll'])
+    def envioLoteProposta(){
+        println("envioLoteProposta")
+    }
+
+    @Transactional
+    @Secured(['permiteAll'])
+    def recebimentoLoteProposta(){
+        println("recebimentoLoteProposta")
     }
 }

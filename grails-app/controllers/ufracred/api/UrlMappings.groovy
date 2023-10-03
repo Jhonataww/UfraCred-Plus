@@ -16,5 +16,7 @@ class UrlMappings {
 
         "/simulaProposta"(controller: "proposta", action:"simulaProposta")
         "/cep"(controller: "cep", action:"consultaCEP")
+        "/enviolote"(controller: "intermediadorPropostasCredito", action:"envioLoteProposta")
+        "/recebimentoLote"(controller: "intermediadorPropostasCredito", action:"recebimentoLoteProposta")
     }
 }
