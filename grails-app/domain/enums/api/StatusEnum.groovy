@@ -7,7 +7,8 @@ enum StatusEnum {
     PENDENTE("Pendente"),
     ILEGITIMO("Ilegitimo"),
     COMITE("Comite"),
-    LOTE("Lote")
+    LOTE("Lote"),
+    LOTE_EFETIVADO("Lote Efetivado")
 
     private final String value
 
