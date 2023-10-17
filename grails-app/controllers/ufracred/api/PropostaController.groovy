@@ -42,6 +42,7 @@ class PropostaController {
         respond propostaService.list(params), model:[propostaCount: propostaService.count(params)]
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_COORDENADOR'])
     def show(Long id) {
         respond propostaService.get(id)
     }
