@@ -10,9 +10,9 @@ class Comite {
     static belongsTo = [assessor: Assessor, proposta: Proposta]
 
     static constraints = {
-        aprovacao nullable: false
+        aprovacao nullable: true
         excluido nullable: true
-        parecer nullable: false, maxSize: 255
-        comite nullable: false
+        parecer nullable: true, maxSize: 255
+        comite nullable: true
     }
 }
