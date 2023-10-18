@@ -41,3 +41,7 @@ Este projeto é licenciado sob a [Licença MIT](LICENSE), o que significa que vo
 ---
 
 **UfraCred-Plus** é um projeto em constante evolução com a missão de simplificar e otimizar o processo de concessão de microcrédito produtivo orientado. Agradecemos por seu interesse e contribuição! Se você tiver sugestões ou encontrar problemas, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+
+**Versão Atual:** 1.0.0
+
+**Projeto desenvolvido para um trabalho de Engenharia de Software da Universidade Federal Rural da Amazônia (UFRA).**
