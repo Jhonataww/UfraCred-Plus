@@ -214,17 +214,7 @@
           <q-expansion-item expand-separator icon="source" label="Dados Gerais">
             <div class="q-pa-md">
               <div class="q-gutter-md row items-start">
-                <q-input
-                  v-model="cliente.cidade"
 
-                  :rules="[val => !!val || 'Campo Obrigatório']"
-                  class="q-pa-md"
-                  color="secondary"
-                  dense
-                  label="Cidade"
-                  label-color="dark"
-                  style="width: 14rem "
-                />
                 <q-input
                   v-model="cliente.cep"
 
@@ -238,6 +228,27 @@
                   @blur="buscaCep()"
                   style="width: 14rem ">
                 </q-input>
+                <q-input
+                  v-model="cliente.endereco"
+                  :rules="[val => !!val || 'Campo Obrigatório']"
+                  class="q-pa-md"
+                  color="secondary"
+                  dense
+                  label="Endereço"
+                  label-color="dark"
+                  style="width: 14rem "
+                />
+                <q-input
+                  v-model="cliente.cidade"
+
+                  :rules="[val => !!val || 'Campo Obrigatório']"
+                  class="q-pa-md"
+                  color="secondary"
+                  dense
+                  label="Cidade"
+                  label-color="dark"
+                  style="width: 14rem "
+                />
                 <q-select
 
                   v-model="cliente.servidorPublico"
@@ -270,16 +281,6 @@
                   color="secondary"
                   dense
                   label="Nacionalidade"
-                  label-color="dark"
-                  style="width: 14rem "
-                />
-                <q-input
-                  v-model="cliente.endereco"
-                  :rules="[val => !!val || 'Campo Obrigatório']"
-                  class="q-pa-md"
-                  color="secondary"
-                  dense
-                  label="Endereço"
                   label-color="dark"
                   style="width: 14rem "
                 />

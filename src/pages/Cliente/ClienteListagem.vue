@@ -405,6 +405,19 @@ const colunasCliente = [
     name: "cpfCnpj",
     field: "cpfCnpj",
     align: "left",
+    format: (val) => {
+      // Remove caracteres não numéricos do CPF/CNPJ
+      const cleanedValue = val.replace(/\D/g, '');
+
+      // Formata CPF (11 dígitos) ou CNPJ (14 dígitos) para o formato desejado
+      if (cleanedValue.length === 11) {
+        return cleanedValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      } else if (cleanedValue.length === 14) {
+        return cleanedValue.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+      } else {
+        return val; // Retorna o valor original se não for um CPF nem um CNPJ válido
+      }
+    },
     required: true,
     sortable: true
   },
@@ -413,6 +426,19 @@ const colunasCliente = [
     name: "cpfConjuge",
     field: "cpfConjuge",
     align: "left",
+    format: (val) => {
+      // Remove caracteres não numéricos do CPF/CNPJ
+      const cleanedValue = val.replace(/\D/g, '');
+
+      // Formata CPF (11 dígitos) ou CNPJ (14 dígitos) para o formato desejado
+      if (cleanedValue.length === 11) {
+        return cleanedValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      } else if (cleanedValue.length === 14) {
+        return cleanedValue.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+      } else {
+        return val; // Retorna o valor original se não for um CPF nem um CNPJ válido
+      }
+    },
     required: true,
     sortable: true
   },
@@ -421,6 +447,17 @@ const colunasCliente = [
     name: "cep",
     field: "cep",
     align: "left",
+    format: (val) => {
+      // Remove caracteres não numéricos do CEP
+      const cleanedValue = val.replace(/\D/g, '');
+
+      // Formata CEP para o formato desejado (XXXXX-XXX)
+      if (cleanedValue.length === 8) {
+        return cleanedValue.substr(0, 5) + '-' + cleanedValue.substr(5);
+      } else {
+        return val; // Retorna o valor original se não for um CEP válido
+      }
+    },
     required: true,
     sortable: true
   },

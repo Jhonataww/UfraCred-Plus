@@ -261,6 +261,7 @@ const colunasProposta = [
     label: "Valor Parcela",
     name: "valorParcela",
     field: "valorParcela",
+    format: (val) => parseFloat(val).toFixed(2),
     align: "left",
     sortable: true
   },
@@ -268,6 +269,7 @@ const colunasProposta = [
     label: "Valor Juros",
     name: "valorJuros",
     field: "valorJuros",
+    format: (val) => parseFloat(val).toFixed(2),
     align: "left",
     sortable: true
   },
@@ -275,6 +277,7 @@ const colunasProposta = [
     label: "Valor Principal",
     name: "valorPrincipal",
     field: "valorPrincipal",
+    format: (val) => parseFloat(val).toFixed(2),
     align: "left",
     sortable: true
   },
